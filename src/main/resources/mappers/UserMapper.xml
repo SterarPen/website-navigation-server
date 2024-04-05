@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.starer.website_navigation_server.dao.IUserDao">
+
+    <resultMap id="UserResult" type="com.starer.website_navigation_server.pojo.User">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="sex" property="sex"/>
+        <result column="phone" property="phone"/>
+        <result column="password" property="password"/>
+        <association property="role" javaType="com.starer.website_navigation_server.pojo.Role">
+            <id column="role_id" property="roleId"/>
+            <result column="role_name" property="roleName"/>
+            <result column="permission" property="permission"/>
+        </association>
+    </resultMap>
+
+    <select id="selectAll" resultMap="UserResult">
+        select
+            user_id, user_name, password, role.role_id as role_id, role.role_name as role_name, role.permission as permission,
+            sex, phone, email, birthday, age, expire
+        from
+            user
+        inner join
+            role
+        on
+            user.role_id = role.role_id
+    </select>
+
+    <select id="selectById" resultMap="UserResult">
+        select
+            user_id, user_name, password, role.role_id, role.role_name, role.permission,
+            sex, phone, email, birthday, age, expire
+        from
+            user
+        inner join
+            role
+        on
+            user.role_id = role.role_id
+        where
+            user_id = #{userId}
+    </select>
+
+    <select id="select" resultMap="UserResult">
+        select
+            user_id, user_name, password, role.role_id as role_id, role.role_name as role_name, role.permission as permission,
+            sex, phone, email, birthday, age, expire
+        from
+            user
+        inner join
+            role
+        on
+            user.role_id = role.role_id
+        <where>
+            <if test="userId != null and userId != ''">
+                user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="password != null and password !=''">
+                and password = #{password}
+            </if>
+            <if test="role != null">
+                <if test="role.roleId != null and role.roleId != ''">
+                    and role.role_id = #{role.roleId}
+                </if>
+                <if test="role.roleName != null and role.roleName != ''">
+                    and role.role_name = #{role.roleName}
+                </if>
+                <if test="role.permission != null and role.permission != ''">
+                    and role.permission = #{role.permission}
+                </if>
+            </if>
+            <if test="sex != null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="email != null">
+                and email = #{email}
+            </if>
+            <if test="expire != null and expire != ''">
+                and expire = #{expire}
+            </if>
+        </where>
+    </select>
+
+    <update id="update">
+        update user
+        <set>
+            <if test="userName != null and userName != ''">
+                userName = #{userName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="role != null and role.roleId != null and role.roleId != ''">
+                    role_id = #{roleId}
+
+            </if>
+            <if test="sex != null and sex != ''">
+                sex = #{sex}
+            </if>
+            <if test="phone != null and phone !=  ''">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email}
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday}
+            </if>
+            <if test="expire != null and expire != ''">
+                expire = #{expire}
+            </if>
+        </set>
+        where
+            user_id = #{userId}
+    </update>
+
+    <insert id="insert" parameterType="com.starer.website_navigation_server.pojo.Admin">
+        insert into
+            user(user_id, user_name, password, role_id, phone, email)
+        values
+            (#{userId}, #{userName}, #{password}, #{role.roleId}, #{phone}, #{email})
+    </insert>
+</mapper>

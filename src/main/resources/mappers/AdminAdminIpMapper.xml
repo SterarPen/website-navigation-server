@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.starer.website_navigation_server.dao.IAdminAdminIpDao">
+    <insert id="insert">
+        insert into
+            admin_admin_ip(admin_id, admin_ip_id)
+        values
+            (#{adminId}, #{adminIpId})
+    </insert>
+
+
+    <select id="selectsByAdminId">
+        select
+            admin_id, admin_ip_id
+        from
+            admin_admin_ip
+        where
+            admin_id = #{adminId}
+    </select>
+    <select id="selectByAdminIpId">
+        select
+            admin_id, admin_ip_id
+        from
+            admin_admin_ip
+        where
+            admin_ip_id = #{adminIpId}
+    </select>
+</mapper>

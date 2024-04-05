@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.starer.website_navigation_server.dao.IAdminDao">
+
+    <select id="selectAll" resultType="com.starer.website_navigation_server.pojo.Admin">
+        select
+            admin_id, admin_name, password, phone, email, expire
+        from
+            admin
+    </select>
+
+    <select id="selectById" resultType="com.starer.website_navigation_server.pojo.Admin">
+        select
+            admin_id, admin_name, password, phone, email, expire
+        from
+            admin
+        where admin_id = #{adminId}
+    </select>
+
+    <select id="select" resultType="com.starer.website_navigation_server.pojo.Admin">
+        select
+            admin_id, admin_name, password, phone, email, expire
+        from
+            admin
+        <where>
+            <if test="adminId != null and adminId != ''">
+                admin_id = #{adminId}
+            </if>
+            <if test="adminName != null and adminName != ''">
+                and admin_name = #{adminName}
+            </if>
+            <if test="password != null and password !=''">
+                and password = #{password}
+            </if>
+            <if test="phone != null and phone != ''">
+                and phone = #{phone}
+            </if>
+            <if test="email != null">
+                and email = #{email}
+            </if>
+            <if test="expire != null and expire != ''">
+                and expire = #{expire}
+            </if>
+        </where>
+    </select>
+
+    <update id="update">
+        update admin
+        <set>
+            <if test="adminName != null and adminName != ''">
+                admin_name = #{adminName},
+            </if>
+            <if test="password != null and password != ''">
+                password = #{password},
+            </if>
+            <if test="phone != null and phone !=  ''">
+                phone = #{phone},
+            </if>
+            <if test="email != null">
+                email = #{email}
+            </if>
+            <if test="expire != null and expire != ''">
+                expire = #{expire}
+            </if>
+        </set>
+        where
+            admin_id = #{adminId}
+    </update>
+
+    <insert id="insert" parameterType="com.starer.website_navigation_server.pojo.Admin">
+        insert into
+            admin(admin_id, admin_name, password, phone, email)
+        values
+            (#{adminId}, #{adminName}, #{password}, #{phone}, #{email})
+    </insert>
+</mapper>

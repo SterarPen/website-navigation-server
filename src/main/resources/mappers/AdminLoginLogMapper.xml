@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.starer.website_navigation_server.dao.IAdminLoginLogDao">
+    
+    <resultMap id="AdminLoginLog" type="com.starer.website_navigation_server.pojo.AdminLoginLog">
+        <id column="log_id" property="logId"/>
+        <association property="admin" javaType="com.starer.website_navigation_server.pojo.Admin">
+            <id property="adminId" column="admin_id"/>
+            <result property="adminName" column="admin_name"/>
+            <result property="password" column="password"/>
+            <result property="phone" column="phone"/>
+            <result property="email" column="email"/>
+            <result property="expire" column="expire"/>
+        </association>
+        <association property="adminIp" column="admin_ip">
+            <id property="adminIpId" column="admin_ip_id"/>
+            <result property="type" column="type"/>
+            <result property="adminIpValue" column="admin_ip_value"/>
+            <result property="address" column="address"/>
+        </association>
+    </resultMap>
+    
+    <insert id="insert">
+        insert into
+            admin_login_log(log_id, status, admin_ip_id, date_time, admin_id)
+        values
+            (#{logId}, #{status}, #{adminIp.adminIpId}, #{dateTime}, #{admin.adminId})
+    </insert>
+
+
+    <select id="selectByLogId" resultMap="AdminLoginLog">
+        select
+            log_id, status, date_time, admin_ip_id, type, admin_ip_value, address,
+            admin.admin_id as admin_id, admin.admin_name as admin_name,
+            admin.password as password, admin.phone as phone, admin.email as email, admin.expire as expire
+        from
+            (select
+                 log_id, status, date_time, admin_id, admin_ip.admin_ip_id as admin_ip_id, admin_ip.type as type,
+                 admin_ip.admin_ip_value as admin_ip_value,
+                 admin_ip.address as address
+            from
+                (select log_id, status, admin_ip_id, date_time, admin_id from admin_login_log where log_id = #{logId}) as alog
+            inner join
+                    admin_ip
+            on
+                alog.admin_ip_id = admin_ip.admin_ip_id) as alog1
+        inner join
+            admin
+        on
+            alog1.admin_id = admin.admin_id
+    </select>
+    <select id="select" resultMap="AdminLoginLog">
+        select
+            log_id, status, date_time, admin_ip_id, type, admin_ip_value, address,
+            admin.admin_id as admin_id, admin.admin_name as admin_name,
+            admin.password as password, admin.phone as phone, admin.email as email, admin.expire as expire
+        from
+            (select
+                log_id, status, date_time, admin_id, admin_ip.admin_ip_id as admin_ip_id, admin_ip.type as type,
+                admin_ip.admin_ip_value as admin_ip_value,
+                admin_ip.address as address
+             from
+                 admin_login_log
+             inner join
+                 admin_ip
+             on
+                 admin_login_log.admin_ip_id = admin_ip.admin_ip_id
+             ) as alog
+         inner join
+            admin
+         on
+            alog.admin_id = admin.admin_id
+        <where>
+            <if test="logId != null and logId != ''">
+                log_id = #{logId}
+            </if>
+            <if test="status != null and status != ''">
+                status = #{status}
+            </if>
+            <if test="adminIp != null and adminIp.adminIpId != null and adminIp.adminIpId != ''">
+                admin_ip_id = #{adminIp.adminIpId}
+            </if>
+            <if test="admin != null and admin.adminId != null and admin.adminId != ''">
+                admin_id = #{admin.adminId}
+            </if>
+        </where>
+    </select>
+    <select id="selectBetweenDateTime" resultMap="AdminLoginLog">
+        select
+            log_id, status, date_time, admin_ip_id, type, admin_ip_value, address,
+            admin.admin_id as admin_id, admin.admin_name as admin_name,
+            admin.password as password, admin.phone as phone, admin.email as email, admin.expire as expire
+        from
+            (select
+                log_id, status, date_time, admin_id, admin_ip.admin_ip_id as admin_ip_id, admin_ip.type as type,
+                admin_ip.admin_ip_value as admin_ip_value,
+                admin_ip.address as address
+             from
+                 admin_login_log
+                     inner join
+                 admin_ip
+                 on
+                     admin_login_log.admin_ip_id = admin_ip.admin_ip_id
+            ) as alog
+                inner join
+            admin
+            on
+                alog.admin_id = admin.admin_id
+        <where>
+            <if test="start != null">
+                date_time >= #{start}
+            </if>
+            <if test="end != null">
+                and date_time &lt;= #{end}
+            </if>
+        </where>
+    </select>
+</mapper>
