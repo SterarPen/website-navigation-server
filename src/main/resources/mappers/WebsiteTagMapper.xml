@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.starer.website_navigation_server.dao.IWebsiteTagDao">
+
+
+    <insert id="insert">
+        insert into
+            website_tag(website_id, tag_id)
+        values
+            (#{websiteId}, #{tagId})
+
+    </insert>
+    <delete id="delete">
+        delete from
+            website_tag
+        where
+            website_id = #{websiteId} and tag_id = #{tagId}
+    </delete>
+</mapper>

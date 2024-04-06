@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.starer.website_navigation_server.dao.IWebsiteDao">
+    <insert id="insert">
+        insert into
+            website(id, name, url, favicon, description, type_id, access)
+        values
+            (#{id}, #{name}, #{url}, #{favicon}, #{description}, #{typeId}, #{access})
+    </insert>
+    <update id="update">
+        update
+            website
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="url != null and url != ''">
+                url = #{url},
+            </if>
+            <if test="favicon != null and favicon != ''">
+                favicon = #{favicon},
+            </if>
+            <if test="description != null and description != ''">
+                description = #{description},
+            </if>
+            <if test="typeId != null and typeId != ''">
+                typeId = #{typeId}
+            </if>
+            <if test="access != null and access != ''">
+                access = #{access}
+            </if>
+        </set>
+        where
+            id = #{id}
+
+    </update>
+    <delete id="delete">
+        delete from website where id = #{id}
+    </delete>
+
+    <select id="selectById" resultType="com.starer.website_navigation_server.pojo.Website">
+        select
+            id, name, type_id, url, favicon, description, access
+        from
+            website
+        where
+            id = #{id}
+    </select>
+    <select id="selectAll">
+        select
+            id, name, type_id, url, favicon, description, access
+        from
+            website
+    </select>
+    <select id="select">
+        select
+            id, name, type_id, url, favicon, description, access
+        from
+            website
+        <where>
+            <if test="id != null and id != ''">
+                id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="typeId != null and typeId != ''">
+                and typeId = #{typeId}
+            </if>
+            <if test="url != null and url != ''">
+                and url = #{url}
+            </if>
+            <if test="favicon != null and favicon != ''">
+                and favicon = #{favicon}
+            </if>
+            <if test="description != null and description != ''">
+                and description = #{description}
+            </if>
+            <if test="access != null and access != ''">
+                and access = #{access}
+            </if>
+        </where>
+    </select>
+    <select id="selectByTypeId">
+        select
+            id, name, type_id, url, favicon, description, access
+        from
+            website
+        where
+            type_id = #{typeId}
+    </select>
+</mapper>
