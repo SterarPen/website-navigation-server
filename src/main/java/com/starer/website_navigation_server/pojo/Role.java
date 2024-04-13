@@ -6,9 +6,9 @@ public class Role {
 
     private String roleId;
     private String roleName;
-    private Byte permission;
+    private String permission;
 
-    public Role(String roleId, String roleName, Byte permission) {
+    public Role(String roleId, String roleName, String permission) {
         this.roleId = roleId;
         this.roleName = roleName;
         this.permission = permission;
@@ -30,11 +30,11 @@ public class Role {
         this.roleName = roleName;
     }
 
-    public Byte getPermission() {
+    public String getPermission() {
         return permission;
     }
 
-    public void setPermission(Byte permission) {
+    public void setPermission(String permission) {
         this.permission = permission;
     }
 

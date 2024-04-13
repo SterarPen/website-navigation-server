@@ -2,6 +2,9 @@ package com.starer.website_navigation_server.pojo.dto;
 
 import java.util.Date;
 
+/**
+ *
+ */
 public class TokenInformation {
 
     private String id;

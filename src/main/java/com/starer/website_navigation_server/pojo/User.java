@@ -13,6 +13,7 @@ public class User {
     private String email;
     private Date birthday;
     private Character expire;
+    private Short age;
 
     public User() {
     }
@@ -29,6 +30,8 @@ public class User {
         this.phone = phone;
     }
 
+
+
     public User(String userId, String userName, String password, Role role, Character sex, String phone, String email, Date birthday, Character expire) {
         this.userId = userId;
         this.userName = userName;
@@ -39,6 +42,35 @@ public class User {
         this.email = email;
         this.birthday = birthday;
         this.expire = expire;
+    }
+
+    public User(String userId, String userName, String password, Role role, Character sex, String phone, String email, Date birthday, Character expire, Short age) {
+        this.userId = userId;
+        this.userName = userName;
+        this.password = password;
+        this.role = role;
+        this.sex = sex;
+        this.phone = phone;
+        this.email = email;
+        this.birthday = birthday;
+        this.expire = expire;
+        this.age = age;
+    }
+
+    public void setSex(Character sex) {
+        this.sex = sex;
+    }
+
+    public void setExpire(Character expire) {
+        this.expire = expire;
+    }
+
+    public Short getAge() {
+        return age;
+    }
+
+    public void setAge(Short age) {
+        this.age = age;
     }
 
     public String getUserId() {

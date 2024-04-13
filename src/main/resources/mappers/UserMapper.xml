@@ -2,22 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.starer.website_navigation_server.dao.IUserDao">
 
+    <resultMap id="RoleResult" type="com.starer.website_navigation_server.pojo.Role">
+        <id column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="permission" property="permission"/>
+    </resultMap>
+
     <resultMap id="UserResult" type="com.starer.website_navigation_server.pojo.User">
         <id column="user_id" property="userId"/>
         <result column="user_name" property="userName"/>
         <result column="sex" property="sex"/>
         <result column="phone" property="phone"/>
         <result column="password" property="password"/>
-        <association property="role" javaType="com.starer.website_navigation_server.pojo.Role">
-            <id column="role_id" property="roleId"/>
-            <result column="role_name" property="roleName"/>
-            <result column="permission" property="permission"/>
-        </association>
+        <result property="sex" column="sex"/>
+        <result column="phone" property="email"/>
+        <result property="birthday" column="birthday"/>
+        <result property="age" column="age"/>
+        <result column="expire" property="expire"/>
+        <association property="role" resultMap="RoleResult"/>
     </resultMap>
 
     <select id="selectAll" resultMap="UserResult">
         select
-            user_id, user_name, password, role.role_id as role_id, role.role_name as role_name, role.permission as permission,
+            user_id, user_name, user.password, role.role_id as role_id, role.role_name as role_name, role.permission as permission,
             sex, phone, email, birthday, age, expire
         from
             user
@@ -43,7 +50,7 @@
 
     <select id="select" resultMap="UserResult">
         select
-            user_id, user_name, password, role.role_id as role_id, role.role_name as role_name, role.permission as permission,
+            user_id, user_name, user.password, role.role_id as role_id, role.role_name as role_name, role.permission as permission,
             sex, phone, email, birthday, age, expire
         from
             user
