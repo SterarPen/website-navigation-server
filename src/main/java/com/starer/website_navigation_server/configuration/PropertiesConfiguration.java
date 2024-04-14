@@ -12,7 +12,7 @@ import java.util.Properties;
 @SpringBootConfiguration
 public class PropertiesConfiguration {
 
-    @Bean
+    @Bean(name = "properties")
     public Properties handleResultProperties() {
         String path = "F:\\Workspace\\IdeaProjects\\website-navigation-server\\src\\main\\resources\\result-cn.properties";
         File file = new File(path);

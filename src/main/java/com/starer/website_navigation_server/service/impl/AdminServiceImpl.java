@@ -8,6 +8,7 @@ import com.starer.website_navigation_server.pojo.dto.TokenInformation;
 import com.starer.website_navigation_server.service.IAdminService;
 import com.starer.website_navigation_server.util.JWTUtil;
 import com.starer.website_navigation_server.util.RedisUtil;
+import com.starer.website_navigation_server.util.SendMessageUtil;
 import com.starer.website_navigation_server.util.ServiceResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -26,7 +27,7 @@ public class AdminServiceImpl implements IAdminService {
     private final RedisUtil redisUtil;
 
     @Autowired
-    public AdminServiceImpl(IAdminDao adminDao, @Qualifier("handleResultProperties") Properties properties,
+    public AdminServiceImpl(IAdminDao adminDao, Properties properties,
         RedisUtil redisUtil) {
         this.adminDao = adminDao;
         this.properties = properties;

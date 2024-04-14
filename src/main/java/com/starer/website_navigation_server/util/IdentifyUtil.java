@@ -17,7 +17,6 @@ public class IdentifyUtil {
     @Autowired
     private RedisUtil redisUtil;
     @Autowired
-    @Qualifier("handleResultProperties")
     private Properties properties;
 
     public ServiceResult<String> identifyToken(String token) {
